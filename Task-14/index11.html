@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="" onsubmit="funct1(event)">
+      <input type="text" placeholder="username" name="username" id="in1" />
+      <label for="">Username</label><br />
+      <input type="text" placeholder="email" name="email" id="in2" />
+      <!-- <input type="text" name="" id="" placeholder="email" name="email" /> -->
+      <label for="">email</label><br />
+      <button>Submit</button>
+    </form>
+    <!-- <button onclick="fun()">Delete</button> -->
+    <ul id="ul"></ul>
+  </body>
+</html>
+<script>
+  function funct1(event) {
+    event.preventDefault();
+    //create object
+    const obj = {
+      name: event.target.username.value,
+      email: event.target.email.value,
+    };
+    const key = event.target.username.value;
+    const userDetail = localStorage.setItem(key, JSON.stringify(obj));
+    showUserOnScreen(obj);
+  }
+  function showUserOnScreen(obj) {
+    //   listContainer = document.getElementsByClassName("list-container");
+    const listContainer = document.getElementById("ul");
+
+    //create elements
+    //   let ul = document.createElement("ul");
+    const newElement = document.createElement("li");
+
+    //create classes
+    //   newElement.className = "liClass";
+
+    // li text content
+    newElement.textContent = obj.name + " " + obj.email;
+
+    console.log(newElement);
+    // const deletebtn = document.createElement("input");
+    // deletebtn.type = "button";
+    // deletebtn.value = "delete";
+    const deletebtn = document.createElement("button");
+    deletebtn.innerText = "delete";
+
+    const editbtn = document.createElement("button");
+    editbtn.innerText = "edit";
+
+    deletebtn.onclick = () => {
+      localStorage.removeItem(obj.email);
+      localStorage.removeItem(obj.name);
+      listContainer.removeChild(newElement);
+    };
+    editbtn.onclick = (event) => {
+      const inputName1 = document.getElementById("in1");
+      const inputName2 = document.getElementById("in2");
+
+      inputName1.value = obj.name;
+      inputName2.value = obj.email;
+      // console.log(inputName1);
+      // console.log(obj.email);
+      localStorage.removeItem(obj.name);
+      localStorage.removeItem(obj.email);
+    };
+
+    newElement.appendChild(editbtn);
+    newElement.insertBefore(deletebtn, editbtn);
+    listContainer.appendChild(newElement);
+  }
+</script>
